@@ -4,6 +4,7 @@ export class Client implements Prisma.ClientsUncheckedCreateInput {
   id?: string;
   name: string;
   address: string;
+  complement?: string;
   number: string;
   city: string;
   district: string;

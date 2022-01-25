@@ -13,8 +13,8 @@ export class ClientsService {
     });
   }
 
-  findAll() {
-    return this.prisma.clients.findMany();
+  async findAll() {
+    return await this.prisma.clients.findMany();
   }
 
   async findOne(id: string) {

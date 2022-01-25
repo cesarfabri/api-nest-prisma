@@ -11,16 +11,17 @@ datasource db {
 }
 
 model Clients {
-  id        String    @id @default(uuid())
-  name      String
-  address   String
-  number    String
-  city      String
-  district  String
-  state     String
-  zipcode   String
-  create_at DateTime  @default(now())
-  update_at DateTime?
+  id         String    @id @default(uuid())
+  name       String
+  address    String
+  complement String?
+  number     String
+  city       String
+  district   String
+  state      String
+  zipcode    String
+  create_at  DateTime  @default(now())
+  update_at  DateTime?
 
   Contacts Contacts[]
   Products Products[]
