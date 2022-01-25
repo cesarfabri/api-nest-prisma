@@ -30,9 +30,11 @@ model Clients {
 }
 
 model Contacts {
-  id       String @id @default(uuid())
-  name     String
-  comments String
+  id        String    @id @default(uuid())
+  name      String
+  comments  String
+  create_at DateTime  @default(now())
+  update_at DateTime?
 
   client       Clients @relation(fields: [fk_id_client], references: [id])
   fk_id_client String
@@ -42,9 +44,11 @@ model Contacts {
 }
 
 model Phones {
-  id       String @id @default(uuid())
-  number   String
-  comments String
+  id        String    @id @default(uuid())
+  number    String
+  comments  String
+  create_at DateTime  @default(now())
+  update_at DateTime?
 
   contact       Contacts @relation(fields: [fk_id_contact], references: [id])
   fk_id_contact String
@@ -69,11 +73,13 @@ model Products {
 }
 
 model Composition {
-  id       String  @id @default(uuid())
-  name     String
-  quantity Decimal
-  price    Decimal
-  unit     String
+  id        String    @id @default(uuid())
+  name      String
+  quantity  Decimal
+  price     Decimal
+  unit      String
+  create_at DateTime  @default(now())
+  update_at DateTime?
 
   product       Products @relation(fields: [fk_id_product], references: [id])
   fk_id_product String
@@ -91,6 +97,8 @@ model Orders {
   date_out       DateTime?
   name_collector String?
   comments       String?
+  create_at      DateTime  @default(now())
+  update_at      DateTime?
 
   fk_id_client String
   client       Clients @relation(fields: [fk_id_client], references: [id])
