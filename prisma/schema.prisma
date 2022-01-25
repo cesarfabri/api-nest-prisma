@@ -9,3 +9,94 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Clients {
+  id        String    @id @default(uuid())
+  name      String
+  address   String
+  number    String
+  city      String
+  district  String
+  state     String
+  zipcode   String
+  create_at DateTime  @default(now())
+  update_at DateTime?
+
+  Contacts Contacts[]
+  Products Products[]
+  Orders   Orders[]
+
+  @@map("clients")
+}
+
+model Contacts {
+  id       String @id @default(uuid())
+  name     String
+  comments String
+
+  client       Clients @relation(fields: [fk_id_client], references: [id])
+  fk_id_client String
+
+  Phones Phones[]
+  @@map("contacts")
+}
+
+model Phones {
+  id       String @id @default(uuid())
+  number   String
+  comments String
+
+  contact       Contacts @relation(fields: [fk_id_contact], references: [id])
+  fk_id_contact String
+
+  @@map("phones")
+}
+
+model Products {
+  id          String    @id @default(uuid())
+  name        String
+  price       Decimal
+  description String
+  create_at   DateTime  @default(now())
+  update_at   DateTime?
+
+  client       Clients @relation(fields: [fk_id_client], references: [id])
+  fk_id_client String
+
+  Orders      Orders[]
+  Composition Composition[]
+  @@map("products")
+}
+
+model Composition {
+  id       String  @id @default(uuid())
+  name     String
+  quantity Decimal
+  price    Decimal
+  unit     String
+
+  product       Products @relation(fields: [fk_id_product], references: [id])
+  fk_id_product String
+
+
+  @@map("composition")
+}
+
+model Orders {
+  id             String    @id @default(uuid())
+  control        Int       @default(autoincrement())
+  quantity       Int
+  total          Decimal
+  date_ready     DateTime  @default(now())
+  date_out       DateTime?
+  name_collector String?
+  comments       String?
+
+  fk_id_client String
+  client       Clients @relation(fields: [fk_id_client], references: [id])
+
+  fk_id_product String
+  product       Products @relation(fields: [fk_id_product], references: [id])
+
+  @@map("orders")
+}
