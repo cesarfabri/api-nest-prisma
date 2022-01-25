@@ -7,8 +7,6 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { ClientRequest } from 'http';
-import { Client } from 'src/clients/entities/client.entity';
 import { ContactsService } from './contacts.service';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
