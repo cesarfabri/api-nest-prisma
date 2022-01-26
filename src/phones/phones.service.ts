@@ -1,26 +1,65 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePhoneDto } from './dto/create-phone.dto';
 import { UpdatePhoneDto } from './dto/update-phone.dto';
 
 @Injectable()
 export class PhonesService {
-  create(createPhoneDto: CreatePhoneDto) {
-    return 'This action adds a new phone';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createPhoneDto: CreatePhoneDto) {
+    return await this.prisma.phones.create({
+      data: createPhoneDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all phones`;
+  async findAll(id: string) {
+    return await this.prisma.phones.findMany({
+      where: { fk_id_contact: id },
+      select: { id: true, number: true, comments: true, create_at: true },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} phone`;
+  async findOne(id: string) {
+    const phone = await this.prisma.phones.findFirst({
+      where: { id },
+    });
+
+    if (!phone) {
+      throw new NotFoundException(`Phone ID ${id} not found`);
+    }
+
+    return phone;
   }
 
-  update(id: number, updatePhoneDto: UpdatePhoneDto) {
-    return `This action updates a #${id} phone`;
+  async update(id: string, updatePhoneDto: UpdatePhoneDto) {
+    const phone = await this.prisma.phones.findFirst({
+      where: { id },
+    });
+
+    if (!phone) {
+      throw new NotFoundException(`Phone ID ${id} not found`);
+    }
+
+    updatePhoneDto.update_at = new Date();
+
+    return await this.prisma.phones.update({
+      where: { id },
+      data: updatePhoneDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} phone`;
+  async remove(id: string) {
+    const phone = await this.prisma.phones.findFirst({
+      where: { id },
+    });
+
+    if (!phone) {
+      throw new NotFoundException(`Phone ID ${id} not found`);
+    }
+
+    return this.prisma.phones.delete({
+      where: { id },
+    });
   }
 }
