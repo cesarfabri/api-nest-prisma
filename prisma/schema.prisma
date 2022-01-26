@@ -33,7 +33,7 @@ model Clients {
 model Contacts {
   id        String    @id @default(uuid())
   name      String
-  comments  String
+  comments  String?
   create_at DateTime  @default(now())
   update_at DateTime?
 
@@ -47,7 +47,7 @@ model Contacts {
 model Phones {
   id        String    @id @default(uuid())
   number    String
-  comments  String
+  comments  String?
   create_at DateTime  @default(now())
   update_at DateTime?
 
@@ -61,7 +61,7 @@ model Products {
   id          String    @id @default(uuid())
   name        String
   price       Decimal
-  description String
+  description String?
   create_at   DateTime  @default(now())
   update_at   DateTime?
 
@@ -69,7 +69,7 @@ model Products {
   fk_id_client String
 
   Orders      Orders[]
-  Composition Composition[]
+  composition Composition?
   @@map("products")
 }
 
@@ -83,7 +83,7 @@ model Composition {
   update_at DateTime?
 
   product       Products @relation(fields: [fk_id_product], references: [id])
-  fk_id_product String
+  fk_id_product String   @unique
 
 
   @@map("composition")
@@ -94,7 +94,7 @@ model Orders {
   control        Int       @default(autoincrement())
   quantity       Int
   total          Decimal
-  date_ready     DateTime  @default(now())
+  date_ready     DateTime? @default(now())
   date_out       DateTime?
   name_collector String?
   comments       String?
