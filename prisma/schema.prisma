@@ -71,8 +71,8 @@ model Products {
   client       Clients @relation(fields: [fk_id_client], references: [id])
   fk_id_client String
 
-  Orders      Orders[]
-  composition Compositions?
+  Orders       Orders[]
+  Compositions Compositions[]
   @@map("products")
 }
 
@@ -81,12 +81,12 @@ model Compositions {
   name      String
   quantity  Decimal
   price     Decimal
-  unit      String
+  unit      Unit      @default(UN)
   create_at DateTime  @default(now())
   update_at DateTime?
 
   product       Products @relation(fields: [fk_id_product], references: [id])
-  fk_id_product String   @unique
+  fk_id_product String
 
 
   @@map("compositions")
@@ -111,4 +111,16 @@ model Orders {
   product       Products @relation(fields: [fk_id_product], references: [id])
 
   @@map("orders")
+}
+
+enum Unit {
+  UN
+  LT
+  KG
+  MT
+  CM
+  MM
+  ML
+  PC
+  KW
 }
