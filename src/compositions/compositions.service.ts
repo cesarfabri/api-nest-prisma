@@ -1,26 +1,64 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCompositionDto } from './dto/create-composition.dto';
 import { UpdateCompositionDto } from './dto/update-composition.dto';
 
 @Injectable()
 export class CompositionsService {
-  create(createCompositionDto: CreateCompositionDto) {
-    return 'This action adds a new composition';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createCompositionDto: CreateCompositionDto) {
+    return await this.prisma.compositions.create({
+      data: createCompositionDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all compositions`;
+  async findAll(id: string) {
+    return await this.prisma.compositions.findMany({
+      where: { fk_id_product: id },
+      select: {
+        id: true,
+        name: true,
+        quantity: true,
+        price: true,
+        unit: true,
+        create_at: true,
+      },
+    });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} composition`;
   }
 
-  update(id: number, updateCompositionDto: UpdateCompositionDto) {
-    return `This action updates a #${id} composition`;
+  async update(id: string, updateCompositionDto: UpdateCompositionDto) {
+    const composition = await this.prisma.compositions.findFirst({
+      where: { id },
+    });
+
+    if (!composition) {
+      throw new NotFoundException(`Composition ID ${id} not found`);
+    }
+
+    updateCompositionDto.update_at = new Date();
+
+    return await this.prisma.compositions.update({
+      where: { id },
+      data: updateCompositionDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} composition`;
+  async remove(id: string) {
+    const composition = await this.prisma.compositions.findFirst({
+      where: { id },
+    });
+
+    if (!composition) {
+      throw new NotFoundException(`Composition ID ${id} not found`);
+    }
+
+    return this.prisma.compositions.delete({
+      where: { id },
+    });
   }
 }
