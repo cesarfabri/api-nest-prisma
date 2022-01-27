@@ -61,6 +61,9 @@ model Products {
   id          String    @id @default(uuid())
   name        String
   price       Decimal
+  cost        Decimal?
+  percent     Int?
+  label       String
   description String?
   create_at   DateTime  @default(now())
   update_at   DateTime?
@@ -69,11 +72,11 @@ model Products {
   fk_id_client String
 
   Orders      Orders[]
-  composition Composition?
+  composition Compositions?
   @@map("products")
 }
 
-model Composition {
+model Compositions {
   id        String    @id @default(uuid())
   name      String
   quantity  Decimal
@@ -86,7 +89,7 @@ model Composition {
   fk_id_product String   @unique
 
 
-  @@map("composition")
+  @@map("compositions")
 }
 
 model Orders {
