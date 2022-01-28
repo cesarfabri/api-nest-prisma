@@ -7,6 +7,7 @@ import { ContactsModule } from './contacts/contacts.module';
 import { PhonesModule } from './phones/phones.module';
 import { ProductsModule } from './products/products.module';
 import { CompositionsModule } from './compositions/compositions.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CompositionsModule } from './compositions/compositions.module';
     PhonesModule,
     ProductsModule,
     CompositionsModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
