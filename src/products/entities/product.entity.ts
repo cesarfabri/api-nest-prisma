@@ -5,7 +5,7 @@ export class Product implements Prisma.ProductsUncheckedCreateInput {
   name: string;
   price: string | number | Prisma.Decimal;
   cost?: string | number | Prisma.Decimal;
-  percent?: number;
+  percent?: string | number | Prisma.Decimal;
   label: string;
   description?: string;
   create_at?: string | Date;

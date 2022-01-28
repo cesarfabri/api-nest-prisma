@@ -62,7 +62,7 @@ model Products {
   name        String
   price       Decimal
   cost        Decimal?
-  percent     Int?
+  percent     Decimal?
   label       String
   description String?
   create_at   DateTime  @default(now())

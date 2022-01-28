@@ -22,6 +22,7 @@ export class ProductsService {
         label: true,
         description: true,
         price: true,
+        cost: true,
         create_at: true,
       },
     });
