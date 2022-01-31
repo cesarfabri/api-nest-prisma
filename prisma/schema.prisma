@@ -96,7 +96,7 @@ model Orders {
   id             String    @id @default(uuid())
   control        Int       @default(autoincrement())
   quantity       Int
-  total          Decimal
+  total          Decimal   @default(0.00)
   date_ready     DateTime? @default(now())
   date_out       DateTime?
   name_collector String?
