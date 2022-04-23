@@ -1,0 +1,22 @@
+DATABASE_URL="postgresql://user:password@localhost:5446/app-nest-next?schema=public"
+
+# DB_CONNECTION=postgres
+# DB_HOST=postgres
+# DB_USERNAME=user
+# DB_PASSWORD=password
+# DB_DATABASE=apinestprisma
+# DB_PORT=5432
+
+POSTGRES_DB=keycloak
+POSTGRES_USER=user
+POSTGRES_PASSWORD=password
+
+DB_VENDOR=POSTGRES
+DB_ADDR=postgres
+DB_DATABASE=keycloak
+DB_USER=user
+DB_PASSWORD=password
+KEYCLOAK_USER=admin
+KEYCLOAK_PASSWORD=password
+
+JWT_SECRET="-----BEGIN PUBLIC KEY-----\<SECRET>\n-----END PUBLIC KEY-----"
